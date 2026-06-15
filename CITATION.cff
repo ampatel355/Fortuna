@@ -2,6 +2,6 @@ cff-version: 1.2.0
 message: "If you use this code or data, please cite the paper."
 title: "Structure-Preserving Monte Carlo Inference for Trading-Strategy Timing"
 authors:
-  - family-names: "[LAST NAME]"
-    given-names: "[FIRST NAME]"
+  - family-names: "Patel"
+    given-names: "Aryan"
 year: 2026
