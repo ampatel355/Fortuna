@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.matplotlib/
+# Internal pipeline run artifacts (never publish these)
+*__run_*
+*__phase*
+*__pid*
+*.meta.json
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+# OS
+.DS_Store

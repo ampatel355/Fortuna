@@ -1,0 +1,7 @@
+# Pinned to the versions used to produce the manuscript. Python 3.11+ recommended.
+numpy==2.4.4
+pandas==2.3.3
+matplotlib==3.10.8
+# Only needed to re-download raw price bars (Code/data_loader.py); the derived
+# artifacts required to reproduce the paper are already included under Data_Clean/.
+yfinance>=0.2.40
