@@ -922,7 +922,7 @@ Table \ref{tab:mc} makes the inference problem concrete. For several strategies,
 
 \section{Market regime analysis}
 
-The regime figures are descriptive diagnostics, not separate hypothesis tests. They summarize trade-level performance using a trade-level return ratio defined as mean return divided by standard deviation, a Sharpe-like ratio per trade rather than an annualized Sharpe (Figure~\ref{fig:regime_bar}). The regime heatmap reports values and trade counts per regime, suppressing regime cells with fewer than five trades. The heatmap reports 11 suppressed cells. Because many regime cells remain small even after suppression, the regime section is used to generate hypotheses about conditional behavior rather than to establish regime-specific timing skill.
+The regime figures are descriptive diagnostics, not separate hypothesis tests. They summarize trade-level performance using a trade-level return ratio defined as mean return divided by standard deviation, a Sharpe-like ratio per trade rather than an annualized Sharpe. The regime heatmap (Figure~\ref{fig:regime_heatmap}) reports values and trade counts per regime, suppressing regime cells with fewer than five trades. The heatmap reports 11 suppressed cells. Because many regime cells remain small even after suppression, the regime section is used to generate hypotheses about conditional behavior rather than to establish regime-specific timing skill.
 
 Table \ref{tab:regimes} reproduces the verified regime values shown in the heatmap. Cells not shown in the heatmap are marked as suppressed.
 
@@ -975,131 +975,126 @@ These robustness results support three claims. First, the weak-skill classificat
 
 \clearpage
 \section{Figures}
+\label{sec:figures-gallery}
 
-This section places the verified figures with filenames as provided. Captions cite only values printed in the supplied figure captions and tables.
+The figures in this section are regenerated directly from the canonical trade logs and the structure-preserving null by \texttt{Code/regenerate\_gallery.py}, which reproduces the published Monte Carlo distribution statistics exactly (the script aborts on any material mismatch). They are not transcribed raster outputs.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_1.png}
+\includegraphics[width=0.85\textwidth]{rcsi_by_strategy.png}
 \caption{GC=F. Relative Cumulative Skill Index (RCSI) by strategy (daily). The plot defines positive RCSI as performance above the strategy-specific Monte Carlo median, and uses RCSI along with $p$-value and percentile for classification.}
 \label{fig:rcsi_by_strategy}
 \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{Figure_2.png}
-\caption{GC=F. Trade-level return ratio by strategy and market regime (daily). The y-axis is mean return divided by standard deviation at the trade level. Light-gray bars are suppressed when regime sample size is fewer than five trades, consistent with the heatmap suppression rule.}
-\label{fig:regime_bar}
-\end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_3.png}
+\includegraphics[width=0.66\textwidth]{regime_heatmap.png}
 \caption{GC=F. Strategy performance across market regimes (daily). Cells show the trade-level return ratio and trade count: e.g., Breakout Vol+Mom is 0.22 (n=14) in Calm, 0.14 (n=24) in Neutral, and 0.29 (n=8) in Stressed. The figure reports ``Suppressed cells: 11'' for regimes with fewer than five trades.}
 \label{fig:regime_heatmap}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_4.png}
+\includegraphics[width=0.72\textwidth]{mc_trend_pullback.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Trend Pullback (daily). Caption values: actual return = 0.0832; median simulated return = 0.4013; simulated 5th/95th = (-0.0611, 1.0725); p-value = 0.8700; actual percentile = 13.0; trades = 77; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_trend_pullback}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_5.png}
+\includegraphics[width=0.72\textwidth]{mc_breakout_volume_momentum.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Breakout Vol+Mom (daily). Caption values: actual return = 0.2967; median simulated return = 0.1285; simulated 5th/95th = (-0.1215, 0.4419); p-value = 0.1758; actual percentile = 82.4; trades = 46; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_breakout}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_6.png}
+\includegraphics[width=0.72\textwidth]{mc_mean_reversion_vol_filter.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Mean Rev Vol Filter (daily). Caption values: actual return = -0.0097; median simulated return = 0.0199; simulated 5th/95th = (-0.0897, 0.1436); p-value = 0.662; actual percentile = 33.8; trades = 13; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_meanrev}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_7.png}
+\includegraphics[width=0.72\textwidth]{mc_trend_momentum_verification.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Validation AVM (daily). Caption values: actual return = 0.2187; median simulated return = 0.1429; simulated 5th/95th = (-0.1285, 0.4919); p-value = 0.3447; actual percentile = 65.5; trades = 35; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_validation}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_8.png}
+\includegraphics[width=0.72\textwidth]{mc_adx_trend_following.png}
 \caption{GC=F. Monte Carlo distribution of final returns, ADX Trend (daily). Caption values: actual return = 0.8032; median simulated return = 0.3705; simulated 5th/95th = (-0.0928, 1.0660); p-value = 0.1414; actual percentile = 85.9; trades = 110; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_adx}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_9.png}
+\includegraphics[width=0.72\textwidth]{mc_uptrend_oversold_reversion.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Oversold Reversion (daily). Caption values: actual return = 0.0822; median simulated return = 0.0464; simulated 5th/95th = (-0.1007, 0.2126); p-value = 0.3409; actual percentile = 65.9; trades = 30; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_oversold}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_10.png}
+\includegraphics[width=0.72\textwidth]{mc_volatility_squeeze_breakout.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Squeeze Breakout (daily). Caption values: actual return = 0.0649; median simulated return = 0.0107; simulated 5th/95th = (-0.0483, 0.0655); p-value = 0.0534; actual percentile = 94.7; trades = 4; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_squeeze}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_11.png}
+\includegraphics[width=0.72\textwidth]{mc_connors_rsi2_pullback.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Connors RSI2 (daily). Caption values: actual return = 0.1184; median simulated return = 0.0216; simulated 5th/95th = (-0.1112, 0.1736); p-value = 0.1428; actual percentile = 85.7; trades = 41; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_connors}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_12.png}
+\includegraphics[width=0.72\textwidth]{mc_donchian_trend_reentry.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Donchian Reentry (daily). Caption values: actual return = 0.0713; median simulated return = 0.1462; simulated 5th/95th = (-0.1328, 0.5173); p-value = 0.6469; actual percentile = 35.3; trades = 60; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_donchian}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_13.png}
+\includegraphics[width=0.72\textwidth]{mc_turn_of_month_seasonality.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Turn-of-Month (daily). Caption values: actual return = 0.3229; median simulated return = 0.1553; simulated 5th/95th = (-0.1498, 0.5794); p-value = 0.2336; actual percentile = 76.7; trades = 141; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_turnofmonth}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_14.png}
+\includegraphics[width=0.72\textwidth]{mc_random.png}
 \caption{GC=F. Monte Carlo distribution of final returns, Random strategy (daily). Caption values: actual return = 0.6011; median simulated return = 0.9381; simulated 5th/95th = (0.1276, 2.3314); p-value = 0.7103; actual percentile = 29.0; trades = 215; simulations = 5{,}000; transaction cost = 0.000470.}
 \label{fig:mc_random}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_15.png}
+\includegraphics[width=0.85\textwidth]{rcsi_robustness.png}
 \caption{GC=F. Monte Carlo robustness of RCSI across seeds (daily). The figure reports mean $\pm$ SD across outer runs, with outer runs = 100 and simulations per run = 5{,}000. Examples: Trend Pullback $-0.361\pm0.005$; ADX Trend $0.387\pm0.005$; Random $-0.103\pm0.523$. Transaction cost = 0.000470.}
 \label{fig:rcsi_robust}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_16.png}
+\includegraphics[width=0.85\textwidth]{percentile_robustness.png}
 \caption{GC=F. Monte Carlo robustness of actual percentile across seeds (daily). Mean $\pm$ SD across outer runs. Examples: Squeeze Breakout $94.3\pm0.3$; ADX Trend $86.2\pm0.4$; Breakout Vol+Mom $82.7\pm0.5$; Random $48.3\pm25.6$.}
 \label{fig:pct_robust}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_17.png}
+\includegraphics[width=0.85\textwidth]{pvalue_by_strategy.png}
 \caption{GC=F. Monte Carlo p-value by strategy (daily). The dashed reference line marks the conventional threshold $p=0.05$. None of the plotted p-values crosses this threshold.}
 \label{fig:pval_by_strategy}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Figure_18.png}
+\includegraphics[width=0.85\textwidth]{equity_curve.png}
 \caption{GC=F. Equity curves by strategy and benchmark (daily). Caption values list final cumulative returns: Trend Pullback 0.083; Breakout Vol+Mom 0.297; Mean Rev Vol Filter -0.010; Validation AVM 0.219; ADX Trend 0.803; Oversold Reversion 0.082; Squeeze Breakout 0.065; Connors RSI2 0.118; Donchian Reentry 0.071; Turn-of-Month 0.323; Random 0.601; Buy \& Hold 14.670. Sample window: 2002-03-04 00:00 to 2026-04-02 00:00.}
 \label{fig:equity_curves}
 \end{figure}
@@ -1195,11 +1190,11 @@ The eleven reported strategies are implemented as follows.
 
 \subsection{Figure-based data sources}
 
-The GC=F empirical panel---cumulative returns, trade counts, Monte Carlo $p$-values, percentiles, $\mathrm{RCSI}_z$, regime ratios, and seed robustness in Table~\ref{tab:main}---is transcribed from the verified run outputs Figure\_1.png through Figure\_18.png, together with the supplied Skill vs Luck Summary image (Figure\_19.png), provided with this paper. Those values are not recomputed in this document.
+The GC=F empirical panel---cumulative returns, trade counts, Monte Carlo $p$-values, percentiles, $\mathrm{RCSI}_z$, regime ratios, and seed robustness in Table~\ref{tab:main}---is reproduced directly from the canonical trade logs and the structure-preserving null by \texttt{Code/regenerate\_gallery.py} (Monte Carlo distributions, conditional excess, $p$-values, and regime ratios) and the robustness summary (seed-level dispersion); the gallery figures of the previous section are produced by the same script. The script verifies its regenerated statistics against the reported values and aborts on any material mismatch, so figures and text cannot silently diverge.
 
 \subsection{Computed analyses and exact commands}
 
-Four analyses are generated directly from the accompanying code rather than transcribed, and reproduce exactly. The synthetic validation (Table~\ref{tab:synthetic_validation}, Figures~\ref{fig:synthetic_calibration} and~\ref{fig:synthetic_power}) is produced, from base seed $9100$, by
+The computed analyses below are generated directly from the accompanying code rather than transcribed, and reproduce exactly. The synthetic validation (Table~\ref{tab:synthetic_validation}, Figures~\ref{fig:synthetic_calibration} and~\ref{fig:synthetic_power}) is produced, from base seed $9100$, by
 \begin{verbatim}
 SYNTHETIC_REPLICATIONS=1500 SYNTHETIC_POWER_REPLICATIONS=400 \
 SYNTHETIC_SIMULATIONS=2000 \
@@ -1226,11 +1221,16 @@ which writes \texttt{Data\_Clean/\allowbreak GC=F\_positive\_control\_power\_sum
 \begin{verbatim}
   ./.venv/bin/python Code/cross_asset_multiplicity.py
 \end{verbatim}
-which writes \texttt{Data\_Clean/cross\_asset\_panel\_summary.csv}.
+which writes \texttt{Data\_Clean/cross\_asset\_panel\_summary.csv}. The realistic-signal detection results (Table~\ref{tab:signal_mechanisms}, Figure~\ref{fig:signal_curve}) and the regenerated GC=F figure gallery (Section~\ref{sec:figures-gallery}, Table~\ref{tab:main}) are produced by
+\begin{verbatim}
+  ./.venv/bin/python Code/positive_control_signals.py
+  ./.venv/bin/python Code/regenerate_gallery.py
+\end{verbatim}
+The latter recomputes the eleven Monte Carlo distributions, the conditional excess, the $p$-values, and the regime ratios from the canonical trade logs and verifies them against the reported values before writing any figure.
 
 \subsection{Statement on empirical integrity}
 
-Every value in the GC=F empirical panel is copied from the supplied figure outputs; every value in the computed analyses above is the direct output of the commands listed in this appendix on the accompanying data. Where a quantity was produced by neither source, the paper states it qualitatively and does not invent a numeric estimate.
+The GC=F empirical panel is reproduced from the canonical trade logs and the structure-preserving null by the commands in this appendix, which verify their regenerated statistics against the reported values and abort on any material mismatch; every value in the computed analyses is the direct output of those commands on the accompanying data. Where a quantity was produced by neither source, the paper states it qualitatively and does not invent a numeric estimate.
 
 \bibliographystyle{elsarticle-num}
 
