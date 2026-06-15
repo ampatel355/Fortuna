@@ -1,5 +1,7 @@
 # Structure-Preserving Monte Carlo for Trading-Strategy Timing — Code & Data Companion
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20695539.svg)](https://doi.org/10.5281/zenodo.20695539)
+
 Reproducibility companion for the paper *"Structure-Preserving Monte Carlo Inference for
 Trading-Strategy Timing"* (gold futures, GC=F, 2002-03-04 to 2026-04-02).
 

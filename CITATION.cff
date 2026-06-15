@@ -5,3 +5,7 @@ authors:
   - family-names: "Patel"
     given-names: "Aryan"
 year: 2026
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20695539
+    description: "Concept DOI (all versions)"
