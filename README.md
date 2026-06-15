@@ -46,9 +46,11 @@ All commands are run from the repository root. Outputs are written under `Data_C
 |---|---|
 | **Table: Synthetic validation** + calibration & power figures | `SYNTHETIC_REPLICATIONS=1500 SYNTHETIC_POWER_REPLICATIONS=400 SYNTHETIC_SIMULATIONS=2000 python Code/synthetic_timing_experiments.py` |
 | **Table: Positive control** + skill-curve & histogram figures | `python Code/positive_control_power.py` |
+| **Table: Realistic-signal detection** (noisy/momentum/AR(1)/regime) + power-vs-signal-quality figure | `python Code/positive_control_signals.py` |
 | **Table: Cross-asset multiplicity** + BH figure | `python Code/cross_asset_multiplicity.py` |
 | **Table: Schedule-measure sensitivity** (baseline column reproduces the central results table exactly) | see the three measure commands below |
 | **Figure: Multi-asset walk-forward inference** | `python Code/regen_multi_asset_inference.py` |
+| **Publication restyling** of the analysis figures (serif, clean) | `python Code/restyle_figures.py` |
 
 Schedule-measure sensitivity (three measures, $M=5{,}000$, seed-42 spawn protocol):
 

@@ -15,6 +15,7 @@ import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pub_style import use_pub_style
 
 CODE = Path(__file__).resolve().parent
 if str(CODE) not in sys.path:
@@ -39,6 +40,7 @@ PHASE4_CSV = (
 
 
 def main() -> None:
+    use_pub_style()
     df = pd.read_csv(PHASE4_CSV)
     df = df.dropna(subset=["mean_mean_actual_percentile", "mean_mean_RCSI_z"]).reset_index(drop=True)
     assert int(df["panel_count"].sum()) == 712, "panel count must match the published 712"

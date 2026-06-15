@@ -60,7 +60,7 @@
 Backtests routinely treat realized profitability as evidence of trading skill, yet this inference is unidentified unless realized timing is compared to a counterfactual that carries the same structural burden on the same price path. We develop a conditional randomization test in which the realized price process, trade count, holding-period multiset, inter-trade gap multiset, capital weights, and direction sequence are held fixed, and only the placement of trades on the calendar is randomized. The test asks a sharp question: does the observed entry placement outperform what a structurally matched random implementation would achieve on the realized path? By conditioning on the realized path and exposure geometry, the construction reduces three confounds that bias conventional backtests: unconditional drift in the price path, the duration--return interaction induced by holding-period structure, and the autocorrelation, volatility clustering, and regime dynamics of returns.
 
 \par\smallskip\noindent
-Applied to daily gold futures (GC=F) from 2002-03-04 to 2026-04-02, eleven strategies are evaluated on cumulative return, the Relative Cumulative Skill Index (RCSI and $\mathrm{RCSI}_z$), one-sided Monte Carlo $p$-values (raw and Benjamini--Hochberg adjusted), percentile rank, regime-conditional trade performance, and seed-level robustness over $R=100$ outer runs of $M=5{,}000$ simulations. Realized cumulative returns span $-0.010$ to $0.803$ versus a buy-and-hold of $14.670$. No strategy crosses $p\le 0.05$ before or after BH adjustment; four are classified as weak skill, five as indistinguishable from random timing, and two below the null median. This verdict is robust to a leading-gap feasibility restriction; it is not reproduced under a context-matched schedule measure, under which the same four weak-skill strategies reject at $p\le0.05$ while the neutral measure rejects none. Because no strategy is significant under both measures, we report the absence of \emph{robust, measure-invariant} entry-placement skill and argue that agreement across schedule measures is the right bar for a timing claim. In synthetic worlds where the truth is known, the test is well calibrated---no-skill rejection rates of $0.049$ to $0.056$ at the $5\%$ level, with Kolmogorov--Smirnov tests unable to reject $p$-value uniformity---and its power rises monotonically with injected entry signal. A positive control on the real GC=F path confirms this directly: injecting genuine timing skill moves the same null from a calibrated baseline (the $50$th percentile under no skill) to certain rejection, with $\mathrm{RCSI}_z$ rising above $7$, so the null verdict is not a powerless test. Pooling every completed test on disk---$322$ strategy-by-asset evaluations across $47$ instruments---no result survives Benjamini--Hochberg or Bonferroni control, the panel $p$-values skew conservative ($13$ nominal rejections versus $16.1$ expected by chance), and random-entry baselines rank among the most extreme. Exploratory daily walk-forward evidence across 14 instruments, together with a bounded frequency check on daily, 4-hour, and hourly bars, likewise shows no broad, stable entry-placement advantage. The result is not that the strategies are bad, but that, within the narrow scope of the entry-placement test, realized profitability is often not separately identifiable from structural exposure.
+Applied to daily gold futures (GC=F) from 2002-03-04 to 2026-04-02, eleven strategies are evaluated on cumulative return, a conditional excess return and its standardized $z$-score form (RCSI and $\mathrm{RCSI}_z$), one-sided Monte Carlo $p$-values (raw and Benjamini--Hochberg adjusted), percentile rank, regime-conditional trade performance, and seed-level robustness over $R=100$ outer runs of $M=5{,}000$ simulations. Realized cumulative returns span $-0.010$ to $0.803$ versus a buy-and-hold of $14.670$. No strategy crosses $p\le 0.05$ before or after BH adjustment; four are classified as weak skill, five as indistinguishable from random timing, and two below the null median. This verdict is robust to a leading-gap feasibility restriction; it is not reproduced under a context-matched schedule measure, under which the same four weak-skill strategies reject at $p\le0.05$ while the neutral measure rejects none. Because no strategy is significant under both measures, we report the absence of \emph{robust, measure-invariant} entry-placement skill and argue that agreement across schedule measures is the right bar for a timing claim. In synthetic worlds where the truth is known, the test is well calibrated---no-skill rejection rates of $0.049$ to $0.056$ at the $5\%$ level, with Kolmogorov--Smirnov tests unable to reject $p$-value uniformity---and its power rises monotonically with injected entry signal. A positive control on the real GC=F path confirms this directly: injecting genuine timing skill moves the same null from a calibrated baseline to certain rejection, and driving placement with realistic, imperfect signals (noisy, momentum, autoregressive, and regime-conditional) yields power that rises smoothly with signal quality, with a minimum detectable signal--return correlation near $0.15$ for $80\%$ power, so the null verdict is not a powerless test. Pooling every completed test on disk---$322$ strategy-by-asset evaluations across $47$ instruments---no result survives Benjamini--Hochberg or Bonferroni control, the panel $p$-values skew conservative ($13$ nominal rejections versus $16.1$ expected by chance), and random-entry baselines rank among the most extreme. Exploratory daily walk-forward evidence across 14 instruments, together with a bounded frequency check on daily, 4-hour, and hourly bars, likewise shows no broad, stable entry-placement advantage. The result is not that the strategies are bad, but that, within the narrow scope of the entry-placement test, realized profitability is often not separately identifiable from structural exposure.
 \endgroup
 \end{abstract}
 
@@ -80,31 +80,21 @@ The paper also evaluates timing under market regimes. GC=F is segmented into Cal
 
 \subsection{Contributions}
 
-This paper makes the following contributions to the methodology of strategy evaluation:
+The paper's \emph{primary contribution} is a conditional randomization test that isolates one component of strategy performance---the information in \emph{when} trades are placed---from the structural exposure any mechanically similar strategy would carry. The test holds the realized price path, trade count, holding-period multiset, inter-trade-gap multiset, capital weights, and direction sequence fixed, and randomizes only the placement of trades on the calendar. It yields an operational, falsifiable definition of \emph{entry-placement skill}: a strategy has it only when its realized timing outperforms a structure-matched random implementation on the same path, not merely when it is profitable. The construction is a finite-sample exact randomization test in the Fisher--Pitman tradition (Section~\ref{sec:theory}); its novelty is the conditioning set---the realized trade geometry of a trading strategy---rather than a new inferential principle, and it inherits the validity and interpretation of that classical machinery.
 
-\begin{enumerate}
-\item \textbf{A conditional null model for timing inference.} The structure-preserving null targets marginal entry-placement performance by holding fixed the realized trade sequence's main structural features. This differs from bootstrap-based or return-shuffling nulls, which preserve return properties but not decision properties.
+Two \emph{secondary contributions} establish that the test is trustworthy and apply it at breadth. First, a calibration-and-power study---five synthetic worlds with known ground truth, and a positive control on the real GC=F path driven by entry signals of controlled, realistic quality (noisy, momentum, autoregressive, and regime-conditional)---shows the test is correctly sized (nominal $5\%$ rejection, uniform null $p$-values) and that its power rises smoothly with signal quality, with a minimum detectable signal--return correlation of roughly $0.15$ (for $80\%$ power) at the GC=F trade counts. A non-rejection therefore reflects the strategy, not a mis-sized or powerless test. Second, pooling every completed test on disk---$322$ strategy-by-asset evaluations across $47$ instruments---and correcting jointly for multiplicity, no result survives Benjamini--Hochberg or Bonferroni control, and random-entry baselines rank among the most extreme, showing that nominal significance at breadth is luck.
 
-\item \textbf{An operational definition of entry-placement skill.} Under this framework, skill is not synonymous with profitability. A strategy exhibits entry-placement skill only when its realized timing systematically exceeds what a structurally matched random implementation would generate. This reframes the inferential standard from ``did the strategy make money?'' to ``did this realized entry schedule add information beyond its structural exposure?''
-
-\item \textbf{A new evaluation standard for backtests.} The framework does not replace backtesting but refines its evidentiary meaning. By providing a formal counterfactual, it transforms a descriptive exercise into a statistical test, enabling researchers to isolate the incremental entry-placement component of performance from favorable path dependence, under an explicitly stated schedule measure.
-
-\item \textbf{Synthetic calibration and power evidence, plus a real-data positive control.} The method is evaluated in controlled worlds with no entry skill, volatility clustering, drift-only profitability, structural exposure absorbed by conditioning, and deterministic entry signal. Across $1{,}500$ replications the no-skill worlds reject at the nominal $5\%$ rate and their $p$-values pass a Kolmogorov--Smirnov uniformity test, while power rises monotonically with injected signal. A positive control on the actual GC=F price path closes the loop: when a tunable fraction of entries is placed with genuine foresight, the same structure-preserving null detects it, with the rejection rate rising from a calibrated null baseline to $1.00$ as injected skill increases. A reported non-rejection therefore reflects the strategy, not a mis-sized or powerless test.
-
-\item \textbf{Cross-asset evidence under multiplicity control.} Every completed structure-preserving test on disk---$322$ strategy-by-asset evaluations across $47$ instruments---is pooled and corrected jointly. No result survives Benjamini--Hochberg or Bonferroni control; nominal rejections fall below the chance expectation; and random-entry baselines rank among the most extreme results, demonstrating that nominal significance at breadth reflects luck rather than skill.
-
-\item \textbf{A multi-asset walk-forward external-validity check.} The primary GC=F analysis is supplemented with an exploratory daily walk-forward panel across equity ETFs, single-name equities, futures, commodities, FX, and crypto. This addresses the single-asset criticism while preserving a clear distinction between exploratory breadth and seed-robust inference.
-
-\item \textbf{A bounded frequency-robustness check.} The framework is also run on recent daily, 4-hour, and hourly panels for SPY, QQQ, and BTC-USD. This does not replace a full high-frequency study, but it directly tests whether the main conclusion disappears once the bar interval is shortened.
-
-\item \textbf{A schedule-measure sensitivity and feasibility analysis.} The full panel is re-evaluated under a leading-gap feasibility restriction and a context-matched schedule measure. The verdict is robust to the former but reverses under the latter, demonstrating empirically that timing verdicts are null-relative and establishing agreement across schedule measures---not rejection under any single one---as the standard for a robust timing claim.
-\end{enumerate}
+The remaining analyses are \emph{supporting}, each present to stress-test the primary result rather than as a separate contribution: a schedule-measure sensitivity and leading-gap feasibility analysis that probes how far the verdict depends on the choice of null measure; an exploratory multi-asset walk-forward panel; and a bounded frequency-robustness check on daily, 4-hour, and hourly bars.
 
 \subsection{Related literature and positioning}
 
-The framework addresses a gap between profitability and inference. Classic efficiency perspectives emphasize the difficulty of extracting persistent abnormal performance from price data \cite{fama1970}. Adaptive views allow for episodic opportunities and regime dependence \cite{lo2004}. The data-snooping literature warns that multiple testing and specification search inflate false discovery in strategy research \cite{white2000,hansen2005,sullivan1999}. Recent work on backtest overfitting and research degrees of freedom expands this warning for quantitative pipelines \cite{bailey2017,lopezdeprado2018,baileylopez2014}. Evidence on time-series momentum shows that some directional effects exist in certain asset classes, while robust inference remains difficult \cite{moskowitz2012}.
+\paragraph{Finance backdrop.} The framework addresses a gap between profitability and inference. Classic efficiency perspectives emphasize the difficulty of extracting persistent abnormal performance from price data \cite{fama1970}, while adaptive views allow for episodic, regime-dependent opportunities \cite{lo2004}. The data-snooping literature warns that multiple testing and specification search inflate false discovery in strategy research \cite{white2000,hansen2005,sullivan1999}, and recent work on backtest overfitting and research degrees of freedom extends this warning to quantitative pipelines \cite{bailey2017,baileylopez2014,lopezdeprado2018}; evidence on time-series momentum shows directional effects exist in some asset classes while robust inference remains difficult \cite{moskowitz2012}. These approaches answer a different question from the one studied here. White's Reality Check \cite{white2000} and Hansen's SPA test \cite{hansen2005} control for data snooping \emph{across} a universe of strategies but take each strategy's decision sequence as given; bootstrap methods \cite{politisromano1994,Kunsch1989} preserve the statistical properties of \emph{returns} but randomize the return series rather than the decision process; and backtest-overfitting diagnostics \cite{bailey2017} operate at the level of strategy \emph{selection} rather than within-strategy timing. We add a complementary, within-strategy diagnostic.
 
-These approaches address important dimensions of strategy evaluation, yet they answer different questions from the one studied here. White's Reality Check \cite{white2000} and Hansen's SPA test \cite{hansen2005} control for data snooping across a universe of strategies but take each strategy's decision sequence as given. Bootstrap methods \cite{politisromano1994} preserve the statistical properties of returns but randomize the return series rather than the decision process. Bailey et al.\ \cite{bailey2017} quantify the probability of backtest overfitting but operate at the level of strategy selection rather than within-strategy timing. This paper adds a complementary within-strategy diagnostic: whether the realized entry schedule is unusually favorable relative to a randomized timing baseline with the same structural burden.
+\paragraph{The test is a conditional randomization test.} In precise terms, the procedure is a randomization test in the sense of Fisher \cite{Fisher1935}: its validity derives not from a postulated population model for returns but from a known re-randomization of the realized data. We hold fixed everything that describes the strategy's trade geometry---the price path, the trade count, the holding-period and inter-trade-gap multisets, the capital weights, and the direction sequence---and re-randomize only the calendar placement of trades by drawing schedules from a measure $\mathbb{Q}$ that preserves that geometry, then refer the realized cumulative return to the distribution it induces. This is exactly the conditional randomization construction formalized and named by Cand\`es et al.\ \cite{Candes2018}: condition on a structure and resample only the object of interest from a known conditional law. The exactness of the resulting test is the classical exactness of similar and group-invariant tests treated measure-theoretically by Lehmann and Romano \cite{LehmannRomano2005} and surveyed for exact inference by Ernst \cite{Ernst2004}; because the realized trade structure plays the role of the conditioning statistic, the relevant exchangeability is an exchangeability of \emph{schedules} rather than of \emph{returns}, in the sense of Aldous \cite{Aldous1985}. Permutation tests that preserve rich dependence structures rather than assuming i.i.d.\ data are treated by Pesarin and Salmaso \cite{PesarinSalmaso2010}.
+
+\paragraph{Finite-sample Monte Carlo validity.} Two features of the implementation place it within the Monte Carlo randomization-test literature rather than treating resampling as an informal device. First, we do not enumerate the full reference set but draw $M$ schedules from $\mathbb{Q}$; that this preserves exact level-$\alpha$ validity is the result of Dwass \cite{Dwass1957}, with the finite-$M$ size-and-power characterization of Hope \cite{Hope1968} and the modern group-theoretic finite-sample treatment of Hemerik and Goeman \cite{HemerikGoeman2018}. Second, the one-sided $p$-value uses the $(\text{exceedances}+1)/(M+1)$ estimator, which is exact precisely because it counts the observed statistic as one further draw from the null; Phipson and Smyth \cite{PhipsonSmyth2010} show that the naive $\text{exceedances}/M$ alternative is downward biased and can be invalidly zero, so the $+1$ is a correctness requirement, not a convention. Because our null is generated by a dependence-preserving mechanism rather than i.i.d.\ draws, the relevant guarantee is that of Besag and Clifford \cite{BesagClifford1989}, who establish that exact Monte Carlo validity survives exactly this kind of constrained, conditional-on-the-data resampling.
+
+\paragraph{Conditional and selective inference.} Framing the method as conditional inference clarifies what it does and does not claim. By conditioning on the realized trade geometry and asking only whether calendar placement carries return-relevant information, we control a \emph{selective} type-I error in the sense of Fithian, Sun, and Taylor \cite{FithianSunTaylor2014}: the error rate of a test defined conditional on the structure the strategy actually produced. This is the inferential posture of exact post-selection inference, where validity is recovered by characterizing the law of a statistic conditional on the realized selection event \cite{LeeSunSunTaylor2016}, and it deliberately differs from the simultaneous-over-all-selections guarantee of Berk et al.\ \cite{BerkBrownBujaZhangZhao2013}: we condition on the realized structure rather than protect against every structure that might have been chosen. The contrast with path-perturbing resampling is also deliberate---the moving-block bootstrap \cite{Kunsch1989} targets uncertainty in the return path under weak dependence, whereas our test holds the path fixed and isolates entry placement. Finally, because the test is applied across a $322$-test panel, multiplicity is controlled in a dependence-aware way: alongside the Benjamini--Hochberg \cite{benjaminihochberg1995} and Romano--Wolf \cite{romanowolf2005} procedures we report Storey's \cite{Storey2002} $q$-value perspective, and note that Benjamini and Yekutieli \cite{BenjaminiYekutieli2001} supply false-discovery-rate control under the positive dependence and, conservatively, the arbitrary dependence that correlated assets and overlapping strategy logic induce.
 
 Two scope conditions hold throughout. All empirical conclusions are long-only. The primary null is the gap-permutation $\mathbb{Q}$; Section~\ref{sec:schedule-sensitivity} re-evaluates the panel under a leading-gap feasibility restriction and a context-matched measure, and finds the verdict robust to the former but sensitive to the latter. Seed-robust inference is established only for the GC=F panel, with the multi-asset and frequency results reported as exploratory, single-run breadth checks rather than confirmatory tests.
 
@@ -128,11 +118,11 @@ The inferential problem is therefore one of \emph{attribution}: given a realized
 Let $\{P_t\}_{t=0}^{T}$ be a realized price path. The \emph{structural profile} of a strategy is the tuple $\mathcal{S} = (\mathbf{h}, \mathbf{g}^{\mathrm{int}}, g^{\mathrm{ext}}, \boldsymbol{\omega}, \mathbf{d})$ consisting of the realized holding-duration multiset $\mathbf{h}$, the internal gap multiset $\mathbf{g}^{\mathrm{int}}$, the external slack $g^{\mathrm{ext}}$, the capital weights $\boldsymbol{\omega}$, and the direction signs $\mathbf{d}$. A \emph{feasible schedule} is any placement of the trade sequence on the open-price calendar that preserves $\mathcal{S}$ and admits no overlapping positions. The structure-preserving null is the distribution $\mathbb{Q}$ over feasible schedules induced by Algorithm~\ref{alg:spr} below. A strategy is said to exhibit \emph{entry-placement skill} at level $\alpha$ if its realized return $CR^{\mathrm{actual}}$ exceeds the $(1-\alpha)$ quantile of $CR^{\mathrm{sim}}$ under $\mathbb{Q}$.
 \end{definition}
 
-The definition formalizes the central object of the paper. The null distribution captures what the strategy's structural footprint would produce on average under randomized entry placement. Entry-placement skill is the excess of realized return over that distribution. This is a narrow definition by design: it targets one component of strategy performance and tests it against a sharp counterfactual. We do not claim it exhausts the meaning of ``skill,'' only that it is the component for which a clean test is available.
+Entry-placement skill is thus the excess of realized return over what the strategy's structural footprint would produce under randomized placement---a deliberately narrow object, tested against a sharp counterfactual, that does not claim to exhaust the colloquial meaning of skill.
 
 \subsection{Why backtests fail as inferential tools}
 
-Backtests fail as standalone tests of skill for three reasons. First, they provide no counterfactual. A positive return is compared implicitly to zero or to a benchmark, but not to what the same structural burden would have produced under randomized entry placement. Second, backtests are vulnerable to overfitting. With enough specification search, a researcher identifies rules that align with favorable periods in the realized path, producing high returns that reflect path dependence rather than genuine edge \cite{bailey2017}. Third, they conflate market drift with strategy performance. In a trending asset like GC=F over 2002--2026, long-biased exposure can produce positive returns even when entry placement adds little information. The structure-preserving null addresses the first and third problems directly by providing an explicit timing counterfactual on the same realized price path. It does not solve specification search by itself; that requires multiple-testing controls, pre-registration, and out-of-sample replication.
+A backtest fails as a standalone test of skill for three reasons: it supplies no counterfactual; it rewards specification search that aligns rules with favorable periods of the realized path \cite{bailey2017}; and it conflates market drift with decision quality, since on a trending asset like GC=F long-biased exposure earns positive returns even when placement adds nothing. The structure-preserving null addresses the first and third directly, by pricing an explicit timing counterfactual on the same realized path. It does not by itself solve specification search, which requires multiple-testing control, pre-registration, and out-of-sample replication.
 
 \section{Data and experimental setup}
 
@@ -199,11 +189,7 @@ Market regimes are assigned after feature construction. Let \(\sigma_t\) denote 
 
 All strategies are evaluated under a common execution model. Signals are formed on the completed bar at time \(t\), but entries occur at the next bar's open, \(t+1\). Exit conditions are also evaluated on completed bars and executed at the following open. This next-bar execution rule is imposed uniformly across the entire strategy panel.
 
-Each strategy begins with \$100{,}000 of capital. The default maximum capital allocation per trade is 100\% of available capital, and the liquidity cap is 5\% of 20-bar average volume. Non-crypto assets are traded in integer share quantities, while crypto assets are traded in increments of 0.0001 units. Entry and exit fills are adverse to the trader: the reference price is the next-bar open, the half-spread is 0.5 basis points, slippage on each side is drawn uniformly from 0.5 to 3.0 basis points, and per-order commission for non-forex, non-crypto assets is
-\[
-\max(0.005\times \text{shares}, \$1).
-\]
-A candidate entry is rejected if no later bar remains for exit, if the next open gaps through the intended stop or target before the position is established, or if position size is infeasible after applying the capital and liquidity constraints. Positions do not overlap within a strategy. When both the stop-loss and take-profit are touched within the same bar, the stop-loss path is chosen conservatively. Any surviving open position is liquidated at the last available open in the sample.
+Fills are adverse to the trader at the next-bar open and incorporate a half-spread, per-side slippage, and per-order commissions; positions do not overlap, and a candidate entry is rejected when no exit bar remains, when the next open gaps through the intended stop or target, or when position size is infeasible under the capital and liquidity constraints. The full execution and fill model---initial capital, the liquidity cap, share rounding, the exact cost schedule, and the gap and overlap rules---is specified in \ref{app:execution}. These assumptions imply an expected round-trip cost of $c=0.000470$ in return units, applied identically to the realized strategy and to every simulated schedule.
 
 The main text reports the strategy families rather than every threshold and stop rule. The panel contains trend-following, breakout, mean-reversion, volatility-filtered, calendar, and random-control rules. All thresholds were fixed before the reported GC=F run and are not re-optimized inside the paper. Full implementation definitions are provided in \ref{app:strategy_rules} so that the empirical section can focus on the null construction and evidence.
 
@@ -321,11 +307,28 @@ Let $T(s)$ be the cumulative-return statistic induced by schedule $s$, and let
 (i) Under $H_0$, $S_0,\ldots,S_M$ are exchangeable conditional on $(\mathcal{S},\{P_t\})$, so the rank of $T(S_0)$ among $\{T(S_m)\}_{m=0}^{M}$ is uniform absent ties; dividing the upper-tail rank by $M+1$ and counting ties into the right tail yields the stated super-uniformity. (ii) For fixed $S_0$, the variables $\mathbf{1}\{T(S_m)\ge T(S_0)\}$, $m\ge 1$, are i.i.d.\ given $(\mathcal{S},\{P_t\},S_0)$ because the $S_m$ are i.i.d.\ draws from $\mathbb{Q}$; the strong law of large numbers gives the stated almost-sure limit, which does not require $H_0$.
 \end{proof}
 
+Part (i) is the finite-sample exactness of a Monte Carlo randomization test \cite{Dwass1957,Hope1968}: drawing $M$ schedules rather than enumerating $\mathbb{Q}$ preserves exact level-$\alpha$ validity \cite{HemerikGoeman2018}, and the $+1$ in numerator and denominator is what makes $\hat p_M$ valid at finite $M$ rather than merely consistent---the naive $\sum\mathbf 1\{\cdot\}/M$ is downward biased and can be invalidly zero \cite{PhipsonSmyth2010}.
+
 Proposition~\ref{prop:q-validity} is deliberately conditional. It does not say that $\mathbb{Q}$ is the only valid null, that the realized strategy literally sampled its schedule from $\mathbb{Q}$, or that non-rejection proves absence of skill. It says that if the no-entry-skill benchmark is defined as $\mathbb{Q}$-exchangeability after conditioning on realized geometry and price path, then the reported Monte Carlo tail area has the usual randomization-test interpretation.
 
 \paragraph{Assumptions.} The interpretation rests on four assumptions. First, the observed price path is treated as fixed for the purpose of conditional inference. Second, the trade log correctly records entries, exits, weights, directions, and non-overlap constraints. Third, $\mathbb{Q}$ is accepted as the no-entry-skill schedule distribution after conditioning on $\mathcal{C}_s$. Fourth, any information embedded in the conditioned variables, such as adaptive holding periods or selective trade spacing, is treated as structural rather than as entry-placement skill. Violating the fourth assumption does not make the calculation meaningless, but it changes the interpretation: the test becomes conservative for total strategy skill because some genuine decision quality may have been conditioned away.
 
-\paragraph{Multiple testing across strategies.} Because the panel evaluates eleven strategies jointly, we report Benjamini--Hochberg-adjusted $p$-values \cite{benjaminihochberg1995} controlling the false discovery rate at $q=0.10$. The within-strategy null does not, by itself, protect against between-strategy specification search; the FDR layer is what bounds that risk. Stepwise procedures designed for data-snooping settings \cite{romanowolf2005} and the broader multiple-testing critique of strategy and factor research \cite{harveyliuzhu2016} are natural complements when the evaluated universe is large.
+\paragraph{Multiple testing across strategies.} Because the panel evaluates eleven strategies jointly, we report Benjamini--Hochberg-adjusted $p$-values \cite{benjaminihochberg1995} controlling the false discovery rate at $q=0.10$, complemented by the $q$-value perspective of Storey \cite{Storey2002}; under the positive dependence and overlapping logic of correlated assets, the conservative Benjamini--Yekutieli guarantee \cite{BenjaminiYekutieli2001} applies. The within-strategy null does not, by itself, protect against between-strategy specification search; the FDR layer is what bounds that risk. Stepwise procedures designed for data-snooping settings \cite{romanowolf2005} and the broader multiple-testing critique of strategy and factor research \cite{harveyliuzhu2016} are natural complements when the evaluated universe is large.
+
+\subsection{Theoretical properties: power, scaling, and the measure family}
+\label{sec:theory}
+
+Validity (Proposition~\ref{prop:q-validity}(i)) is only half of what a referee should demand: the test must also have power that behaves sensibly, and its dependence on the simulation budget $M$ and the trade count $N_s$ should be explicit.
+
+\paragraph{Power and the simulation budget.} Fix a realized schedule whose statistic sits at upper $\mathbb{Q}$-tail probability $q:=\mathbb{Q}\big(T(S)\ge T(S_0)\mid\mathcal S,\{P_t\}\big)$. The Monte Carlo test rejects at level $\alpha$ when at most $k_\alpha:=\lfloor\alpha(M+1)\rfloor-1$ of the $M$ independent draws exceed $T(S_0)$, so
+\[
+\Pr(\text{reject}\mid S_0)=\Pr\big(\mathrm{Bin}(M,q)\le k_\alpha\big),
+\]
+which converges to $\mathbf 1\{q<\alpha\}$ as $M\to\infty$, and to $\tfrac12$ in the boundary case $q=\alpha$; the test is therefore consistent against every alternative with $q<\alpha$. The convergence is \emph{not} monotone in $M$: on each plateau where $k_\alpha$ is constant the rejection probability declines, and it jumps upward only when $\alpha(M+1)$ crosses an integer, tracing a sawtooth around its limit rather than a smooth increase \cite{Hope1968,Dwass1957}. The simulation budget is nonetheless far from binding here: at $M=5{,}000$ and $\alpha=0.05$ a schedule at the true $1\%$ tail rejects with probability essentially one ($\Pr(\mathrm{Bin}(5000,0.01)\le249)\approx1$).
+
+\paragraph{Trade-count scaling and the minimum detectable edge.} Power against a genuine signal is governed by the trade count. Consider a per-trade location-shift alternative in which the $N_s$ realized trade log-returns contribute independently to $\log(1+CR)$ with a common standardized entry edge $\zeta:=\mu_1/\sigma_1>0$ relative to randomized placement, against a $\mathbb{Q}$-mean of zero. the standardized statistic $Z_{N_s}:=(T(S_0)-\mu_{\mathbb Q})/\sigma_{\mathbb Q}$ satisfies $Z_{N_s}=\sqrt{N_s}\,\zeta+O_p(1)$ (equivalently $Z_{N_s}/\sqrt{N_s}\to_p\zeta$), so the realized $\mathbb{Q}$-percentile tends to one and the test is consistent as $N_s\to\infty$; equivalently the minimum detectable edge shrinks as $\zeta_{\min}\asymp N_s^{-1/2}$. Two consequences match the empirical record. First, low-frequency strategies are weakly identified: Squeeze Breakout's $N_s=4$ admits only a large $\zeta_{\min}$, which is why its near-threshold $p$-value is read as exploratory rather than as evidence of absence. Second, a Gaussian reference for $Z_{N_s}$ requires a finite-population or weak-dependence central-limit argument with a no-dominant-term condition---not an i.i.d.\ Lyapunov theorem, since under $\mathbb{Q}$ the summands are a gap-permutation of one fixed, autocorrelated return path rather than independent draws. We therefore treat the standardized conditional excess (which we denote $\mathrm{RCSI}_z$) as a descriptive, approximately pivotal effect size, not as the basis of the test: validity rests on the exact exchangeability of Proposition~\ref{prop:q-validity}(i), not on the Gaussian tail. The adequacy of the normal approximation in our setting is then an empirical matter, confirmed nonparametrically by the Kolmogorov--Smirnov uniformity tests of Section~\ref{sec:simulation-validation} and the controlled-strength power calibration of Section~\ref{sec:positive-control}.
+
+\paragraph{The measure family and measure-invariant skill.} The null is indexed by a choice of conditioning measure. Let $\mathfrak{Q}=\{\mathbb{Q}_\theta:\theta\in\Theta\}$ be the family of structure-preserving measures that all fix $(\mathcal S,\{P_t\})$ but differ in which additional features of the realized schedule they hold fixed: the gap-permutation measure (conditioning only on the geometry $\mathcal S$), the leading-gap restriction (additionally forbidding placement in the universal signal warm-up region), and the context-matched measure (additionally restricting entries to bars of comparable trailing volatility). Each $\mathbb{Q}_\theta$ defines a null $H_0^\theta$ and an estimand $q_\theta=\mathbb{Q}_\theta\big(T(S)\ge T(S_0)\big)$. Because the measures differ \emph{precisely} in where they draw the line between ``structure'' and ``placement,'' a rejection under $\mathbb{Q}_\theta$ but not $\mathbb{Q}_{\theta'}$ is not attributable to entry placement \emph{per se}: it is confounded with the conditioning choice $\theta$, which the data do not pin down. We therefore define \emph{measure-invariant entry-placement skill} as rejection of $H_0^\theta$ for every $\theta$ in an admissible class $\Theta_0$, and adopt agreement across $\Theta_0$ as the standard. This follows from the definition rather than from taste: invariance to the (partly arbitrary) conditioning choice is exactly what identifies placement as opposed to the analyst's structure/placement partition. Agreement across $\Theta_0$ is necessary for a \emph{measure-invariant} claim but not sufficient (a confound common to every admissible measure would survive); it is conversely \emph{not} necessary for genuine state-conditional skill, which a conditioning measure can absorb (Section~\ref{sec:schedule-sensitivity} contains exactly such a case). We therefore present measure invariance as the strongest claim the design supports, not as the only form skill could take. We adopt the gap-permutation measure as the minimal element of $\mathfrak{Q}$---it adds no contextual restriction beyond $\mathcal S$---as the primary null, without asserting it is the unique admissible choice; the other measures are refinements used to probe robustness in Section~\ref{sec:schedule-sensitivity}.
 
 \subsection{What this null identifies}
 
@@ -388,7 +391,7 @@ CR_s^{\mathrm{actual}}
 \end{equation}
 These realized trade returns are already net of execution costs. If a strategy generates no completed trades, the null distribution is set to a degenerate sequence of zero returns so that the downstream inference remains well defined.
 
-Each randomized trade schedule is priced on the observed open-price calendar. Entry and exit reference prices are the randomized opening prices at the simulated entry and exit indices. The simulation reapplies the same execution-cost structure used in the realized trades: a half-spread of 0.5 basis points, a fresh slippage draw uniformly distributed between 0.5 and 3.0 basis points on each side, and an expected commission rate of 0.00002. Together, these assumptions imply the expected round-trip cost of 0.000470 reported in the empirical outputs. If \(\tilde{q}_{j,m}\) denotes the simulated net position return of trade \(j\) in simulation \(m\), then the simulated portfolio return contribution is
+Each randomized trade schedule is priced on the observed open-price calendar, with entry and exit reference prices given by the randomized opening prices at the simulated entry and exit indices. The simulation reapplies the same execution-cost and fill model used for the realized trades (\ref{app:execution}), which implies the expected round-trip cost of $0.000470$. If \(\tilde{q}_{j,m}\) denotes the simulated net position return of trade \(j\) in simulation \(m\), then the simulated portfolio return contribution is
 \begin{equation}
 \tilde{r}_{j,m}=\omega_j \tilde{q}_{j,m},
 \end{equation}
@@ -415,19 +418,17 @@ Each outer run again generates independent strategy-specific pseudo-random strea
 
 Each outer-run record stores the realized cumulative return, annualized return, annualized Sharpe ratio, trade-level return ratio, maximum drawdown, simulated mean, median, and standard deviation, the 5th and 95th null percentiles, the one-sided \(p\)-value, \(p\)-value prominence, percentile rank, \(\mathrm{RCSI}\), \(\mathrm{RCSI}_z\), and the number of trades. Annualized return is computed by annualizing the summed log trade returns over the active span from first entry to last exit using the observed bar density of the market calendar. Annualized Sharpe ratio and maximum drawdown are computed from a reconstructed bar-by-bar equity curve that marks open positions to market using close prices and carries idle periods in cash. The robustness summary then aggregates each metric across outer runs by its mean, median, standard deviation, minimum, maximum, and interquartile range, and reports the proportion of runs with \(p\le 0.05\) and the proportion of runs above the null median.
 
-\subsection{Skill metrics computation}
+\subsection{Conditional excess return and its standardized form}
 
-Let \(CR_s^{\mathrm{actual}}\) denote the realized cumulative return of strategy \(s\), and let \(\{CR_{s,m}^{\mathrm{sim}}\}_{m=1}^{M}\) denote the corresponding simulated cumulative returns under the structure-preserving null. Let \(\mu_s^{\mathrm{sim}}\) and \(\sigma_s^{\mathrm{sim}}\) denote the sample mean and standard deviation of \(\{CR_{s,m}^{\mathrm{sim}}\}_{m=1}^{M}\). The reported skill measures are
+The two reported effect-size measures are standard conditional contrasts, not new statistics; we name them only for brevity and to match the supplied figure outputs. Let \(CR_s^{\mathrm{actual}}\) denote the realized cumulative return of strategy \(s\), and let \(\{CR_{s,m}^{\mathrm{sim}}\}_{m=1}^{M}\) denote the simulated cumulative returns under the structure-preserving null, with sample mean \(\mu_s^{\mathrm{sim}}\) and standard deviation \(\sigma_s^{\mathrm{sim}}\). The \emph{conditional excess return} is the realized return net of the null mean,
 \begin{equation}
 \mathrm{RCSI}_s = CR_s^{\mathrm{actual}} - \mu_s^{\mathrm{sim}},
 \end{equation}
-and
+and its \emph{standardized} form is the Monte Carlo $z$-score,
 \begin{equation}
-\mathrm{RCSI}_{z,s}
-=
-\frac{CR_s^{\mathrm{actual}}-\mu_s^{\mathrm{sim}}}{\sigma_s^{\mathrm{sim}}}.
+\mathrm{RCSI}_{z,s}=\frac{CR_s^{\mathrm{actual}}-\mu_s^{\mathrm{sim}}}{\sigma_s^{\mathrm{sim}}}.
 \end{equation}
-The simulated median is retained as a descriptive reference point, but the final definitions of both \(\mathrm{RCSI}\) and \(\mathrm{RCSI}_z\) are centered on the simulated mean. When the null standard deviation is zero, \(\mathrm{RCSI}_z\) is set to zero only if the realized return equals the null mean and is otherwise treated as undefined.
+The first is the effect size on the return scale; the second is that effect in null-standard-deviation units and, by the argument of Section~\ref{sec:theory}, is asymptotically pivotal under $\mathbb{Q}$. Neither carries the verdict on its own: classification rests on the exact $p$-value and percentile, with the standardized excess reported only as a descriptive effect size. When the null standard deviation is zero, $\mathrm{RCSI}_z$ is set to zero if the realized return equals the null mean and is otherwise undefined.
 
 The one-sided empirical \(p\)-value is computed using the smoothed estimator
 \begin{equation}
@@ -548,6 +549,48 @@ The control behaves exactly as a sound test should (Table~\ref{tab:positive_cont
 \caption{A single genuinely well-timed strategy ($\alpha=1$) on the real GC=F path. The realized cumulative return (red) lies far beyond the entire structure-preserving null distribution of the same trades placed at random ($p\approx0.0002$, $\mathrm{RCSI}_z\approx8$).}
 \label{fig:pc_hist}
 \end{figure}
+
+\subsection{Detecting realistic and imperfect signals}
+\label{sec:realistic-signals}
+
+The oracle of the previous subsection uses future information by construction; it certifies that the test \emph{can} reject, but a referee rightly asks whether it detects the noisy, imperfect signals a real strategy would use. We answer this on the same GC=F path by driving entry placement with signals of controlled quality, summarized by $\rho$, the Pearson correlation between the entry signal and the $d$-bar forward return. A strategy enters at its top-$N$ signal bars (mutually non-overlapping); the realized schedule is scored against the same structure-preserving null. The oracle is the limiting case $\rho\to1$; $\rho=0$ is no skill.
+
+Figure~\ref{fig:signal_curve} reports power as a function of realized signal quality, using a noisy signal $s=z(f)+\lambda\varepsilon$ whose correlation with the forward return $f$ is tuned across a grid. The rejection rate rises smoothly from the nominal $5\%$ level at $\rho\approx0$ ($\rho=0.0001$: reject rate $0.00$, mean $p=0.52$) to certain detection by $\rho\approx0.20$ (reject rate $1.00$, mean $p=0.005$), passing through partial power at $\rho\approx0.10$ (reject rate $0.48$, mean $p=0.099$). The minimum detectable signal--return correlation for $80\%$ power is therefore roughly $\rho\approx0.15$ at the GC=F trade counts---a concrete, interpretable sensitivity that the bare oracle does not provide and that matches the $\sqrt{N_s}$ scaling of Section~\ref{sec:theory}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.74\textwidth]{positive_control_signal_curve.png}
+\caption{Power versus signal quality on the real GC=F path. Each point averages $40$ seeds at $M=5{,}000$; the horizontal lines mark the nominal $5\%$ level and $80\%$ power. Rejection rises smoothly with the realized signal--forward-return correlation, giving a minimum detectable correlation of roughly $0.15$.}
+\label{fig:signal_curve}
+\end{figure}
+
+Detection does not depend on foresight or on a particular signal-generating process. Table~\ref{tab:signal_mechanisms} applies the test to four mechanisms: a noisy oracle, an AR(1)-smoothed signal, a regime-conditional signal (skill only inside calm regimes), and a \emph{causal} momentum signal (trailing return, using no future information). The three signals with positive realized quality are detected in proportion to their correlation---regime-conditional ($\rho=0.27$) most strongly, then AR(1) ($\rho=0.16$) and the noisy oracle ($\rho=0.10$). The momentum signal is the most instructive: on gold at this horizon trailing momentum is \emph{anti}-correlated with the forward return ($\rho=-0.07$, a mean-reverting tendency), so it times entries poorly, and the test correctly assigns it no skill---indeed it sits well below the null median. The procedure responds to the realized informativeness of a signal, not to the analyst's intent or to whether the signal happens to be causal.
+
+\begin{table}[H]
+\centering
+\caption{Detection across signal-generating processes on the real GC=F path (target correlation $0.10$ for the calibrated signals; $40$ seeds at $M=5{,}000$). $\bar\rho$ is the mean realized signal--forward-return correlation.}
+\label{tab:signal_mechanisms}
+{\small
+\renewcommand{\arraystretch}{1.12}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Signal-generating process & $\bar\rho$ & Mean $p$ & Reject @ 5\% & Mean $\mathrm{RCSI}_z$ \\
+\midrule
+Regime-conditional (calm-only skill) & \phantom{-}0.27 & 0.054 & 0.85 & \phantom{-}2.42 \\
+AR(1)-smoothed signal & \phantom{-}0.16 & 0.051 & 0.63 & \phantom{-}2.15 \\
+Noisy oracle & \phantom{-}0.10 & 0.107 & 0.40 & \phantom{-}1.49 \\
+Momentum, causal (trailing return) & $-0.07$ & 1.000 & 0.00 & $-4.82$ \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+}
+\par\vspace{0.5em}
+\begin{minipage}{0.95\textwidth}
+\centering
+\footnotesize\emph{Notes.} Calibrated signals (noisy oracle, AR(1)) target a modest correlation of $0.10$; the regime-conditional and causal-momentum signals realize whatever correlation the data produce. A causal momentum rule is anti-predictive for entry timing on gold at the $10$-bar horizon, and is correctly classified below the null median rather than as skill.
+\end{minipage}
+\end{table}
 
 \section{Empirical results}
 
@@ -773,6 +816,8 @@ The verdict at breadth is unambiguous: nothing survives. After Benjamini--Hochbe
 \caption{Cross-asset panel of $322$ structure-preserving tests across $47$ instruments. Left: the $p$-value histogram skews conservative, with $13$ nominal rejections versus $16.1$ expected by chance. Right: the Benjamini--Hochberg plot---no ordered $p$-value crosses the FDR line, so there are zero discoveries; circled points are random-entry baselines, which sit among the smallest $p$-values.}
 \label{fig:cross_asset}
 \end{figure}
+
+\paragraph{What the panel is, and is not.} Three selection questions deserve direct answers. First, on \emph{strategy choice}: the eleven-rule panel is fixed, with thresholds set ex ante (\ref{app:strategy_rules}) and applied identically to every asset; there is no per-asset re-optimization, so the within-scan researcher degrees of freedom are confined to the asset universe rather than the rules. Second, on \emph{asset choice}: the $47$ instruments are those for which a completed structure-preserving run existed---an availability sample spanning equity ETFs, single names, futures, commodities, FX, and crypto, not a set curated on outcomes. We report every test that exists rather than a selected subset, and the embedded random-entry baselines act as a built-in negative control: any selection or specification artifact that inflated significance would inflate the baselines too, and it does not. Third, on \emph{survivorship}: the universe contains currently traded instruments, so delisted names are absent. This cannot manufacture the finding, for two reasons. The result is a \emph{null}, and survivorship would if anything bias toward detecting skill (survivors trend upward); and the structure-preserving null absorbs that drift by construction, since it reprices the same trades on the same surviving path. The honest characterization is therefore a pooled, dependence-laden convenience sample---correlated assets and shared strategy logic---analyzed with dependence-aware multiplicity control \cite{benjaminihochberg1995,BenjaminiYekutieli2001}, not a designed-universe study; we present it as breadth evidence against the existence of broad, easily found timing skill, not as a representative census.
 
 \subsection{Frequency robustness check}
 \label{sec:frequency-robustness}
@@ -1111,6 +1156,11 @@ Future work should extend this framework to seed-robust multi-asset and deeper i
 
 \appendix
 
+\section{Execution and fill model}
+\label{app:execution}
+
+Each strategy begins with \$100{,}000 of capital. The default maximum capital allocation per trade is $100\%$ of available capital, and the liquidity cap is $5\%$ of $20$-bar average volume. Non-crypto assets are traded in integer share quantities, while crypto assets are traded in increments of $0.0001$ units. Entry and exit fills are adverse to the trader: the reference price is the next-bar open, the half-spread is $0.5$ basis points, slippage on each side is drawn uniformly from $0.5$ to $3.0$ basis points, and the per-order commission for non-forex, non-crypto assets is $\max(0.005\times\text{shares},\,\$1)$. A candidate entry is rejected if no later bar remains for exit, if the next open gaps through the intended stop or target before the position is established, or if position size is infeasible after applying the capital and liquidity constraints. Positions do not overlap within a strategy; when both the stop-loss and take-profit are touched within the same bar, the stop-loss path is taken conservatively; and any surviving open position is liquidated at the last available open in the sample. The Monte Carlo null reprices each simulated schedule under this same model---a half-spread of $0.5$ basis points, a fresh per-side slippage draw on $[0.5,3.0]$ basis points, and an expected commission rate of $0.00002$---so that the realized strategy and its null comparison paths face identical frictions. Together these imply the expected round-trip cost $c=0.000470$ used throughout.
+
 \section{Strategy rule definitions}
 \label{app:strategy_rules}
 
@@ -1140,6 +1190,8 @@ The eleven reported strategies are implemented as follows.
 \end{itemize}
 
 \section{Reproducibility appendix}
+
+\textbf{Code and data availability.} All code and the derived data required to reproduce every table and figure in this paper are publicly available at \url{https://github.com/ampatel355/Fortuna} and permanently archived at \url{https://doi.org/10.5281/zenodo.20695539}. The repository contains the structure-preserving null implementation, the analysis scripts referenced in this appendix, the regime-labeled price series and realized trade logs, and a \texttt{README} mapping each table and figure to its exact reproduction command. Runs are deterministic under the seed protocol described below.
 
 \subsection{Figure-based data sources}
 
@@ -1235,6 +1287,70 @@ M. L\'opez de Prado, \emph{Advances in Financial Machine Learning}, Wiley, 2018.
 \bibitem{baileylopez2014}
 D. H. Bailey, M. L\'opez de Prado, The deflated Sharpe ratio: Correcting for selection bias, backtest overfitting, and non-normality,
 \emph{Journal of Portfolio Management} 40(5) (2014) 94--107.
+
+\bibitem{Fisher1935}
+R. A. Fisher, \emph{The Design of Experiments}, Oliver \& Boyd, Edinburgh, 1935.
+
+\bibitem{LehmannRomano2005}
+E. L. Lehmann, J. P. Romano, \emph{Testing Statistical Hypotheses}, 3rd Edition, Springer, New York, 2005.
+
+\bibitem{Candes2018}
+E. Cand\`es, Y. Fan, L. Janson, J. Lv, Panning for gold: `model-X' knockoffs for high dimensional controlled variable selection,
+\emph{Journal of the Royal Statistical Society: Series B} 80(3) (2018) 551--577.
+
+\bibitem{Ernst2004}
+M. D. Ernst, Permutation methods: A basis for exact inference,
+\emph{Statistical Science} 19(4) (2004) 676--685.
+
+\bibitem{Aldous1985}
+D. J. Aldous, Exchangeability and related topics, in: \emph{\'Ecole d'\'Et\'e de Probabilit\'es de Saint-Flour XIII---1983}, Lecture Notes in Mathematics, vol.~1117, Springer, Berlin, 1985, pp.~1--198.
+
+\bibitem{Dwass1957}
+M. Dwass, Modified randomization tests for nonparametric hypotheses,
+\emph{The Annals of Mathematical Statistics} 28(1) (1957) 181--187.
+
+\bibitem{Hope1968}
+A. C. A. Hope, A simplified Monte Carlo significance test procedure,
+\emph{Journal of the Royal Statistical Society: Series B} 30(3) (1968) 582--598.
+
+\bibitem{HemerikGoeman2018}
+J. Hemerik, J. Goeman, Exact testing with random permutations,
+\emph{TEST} 27(4) (2018) 811--825.
+
+\bibitem{PhipsonSmyth2010}
+B. Phipson, G. K. Smyth, Permutation $p$-values should never be zero: Calculating exact $p$-values when permutations are randomly drawn,
+\emph{Statistical Applications in Genetics and Molecular Biology} 9(1) (2010) Article 39.
+
+\bibitem{BesagClifford1989}
+J. Besag, P. Clifford, Generalized Monte Carlo significance tests,
+\emph{Biometrika} 76(4) (1989) 633--642.
+
+\bibitem{PesarinSalmaso2010}
+F. Pesarin, L. Salmaso, \emph{Permutation Tests for Complex Data: Theory, Applications and Software}, John Wiley \& Sons, Chichester, 2010.
+
+\bibitem{FithianSunTaylor2014}
+W. Fithian, D. Sun, J. Taylor, Optimal inference after model selection,
+arXiv:1410.2597 (2014).
+
+\bibitem{LeeSunSunTaylor2016}
+J. D. Lee, D. L. Sun, Y. Sun, J. E. Taylor, Exact post-selection inference, with application to the lasso,
+\emph{The Annals of Statistics} 44(3) (2016) 907--927.
+
+\bibitem{BerkBrownBujaZhangZhao2013}
+R. Berk, L. Brown, A. Buja, K. Zhang, L. Zhao, Valid post-selection inference,
+\emph{The Annals of Statistics} 41(2) (2013) 802--837.
+
+\bibitem{Kunsch1989}
+H. R. K\"unsch, The jackknife and the bootstrap for general stationary observations,
+\emph{The Annals of Statistics} 17(3) (1989) 1217--1241.
+
+\bibitem{Storey2002}
+J. D. Storey, A direct approach to false discovery rates,
+\emph{Journal of the Royal Statistical Society: Series B} 64(3) (2002) 479--498.
+
+\bibitem{BenjaminiYekutieli2001}
+Y. Benjamini, D. Yekutieli, The control of the false discovery rate in multiple testing under dependency,
+\emph{The Annals of Statistics} 29(4) (2001) 1165--1188.
 
 \end{thebibliography}
 
